@@ -1,0 +1,59 @@
+/* styles.css */
+ 
+/* Gradient button background */
+/* .button-gradient {
+    background: linear-gradient(to right, #FFD700, #FFA500);
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background- 0.3s ease-in-out;
+  }
+  .button-gradient:hover {
+    background: linear-gradient(to right, #FFA500, #FFD700);
+  }  */
+  .button-gradient {
+    background: linear-gradient(to right, #AB47BC, #8E24AA);
+    /* background: linear-gradient(to right, #b47f2a, #FF9500);  */
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out; /* Corrected transition property */
+    border-radius: 5px; /* Added for a smoother look */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15); /* Added for depth */
+  }
+  
+  /* Hover effect with a brighter orange gradient */
+  .button-gradient:hover {
+    background: linear-gradient(to right, #E94057, #AA00FF);
+
+    /* background: linear-gradient(to right, #d2b564, #ab6e25); */
+
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25); /* Enhanced shadow on hover */
+  }
+  .card__one {
+    transition: transform .5s;
+  
+    &::after {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      transition: opacity 2s cubic-bezier(.165, .84, .44, 1);
+      box-shadow: 0 8px 17px 0 rgba(0, 0, 0, .2), 0 6px 20px 0 rgba(0, 0, 0, .15);
+      content: '';
+      opacity: 0;
+      z-index: -1;
+    }
+  
+    &:hover,
+    &:focus {
+      transform: scale3d(1.006, 1.006, 1);
+  
+      &::after {
+        opacity: 1;
+      }
+    }
+  }
