@@ -33,6 +33,8 @@ import Card from './components/card';
 
 import ProductDetail from './components/ProductDetail';
 import InvoiceReceipt from './components/InvoiceReceipt';
+import ContactUs from './components/ContactUs';
+import AboutUs from './components/AboutUs';
 
 function App() {
   return (
@@ -43,8 +45,10 @@ function App() {
             <Route index element={<Dashboard />} />
             <Route path="/Card" element={<Card />} />
             <Route path="/" element={<Card />} />
-          <Route path="/invoice" element={<InvoiceReceipt />} /> 
+            <Route path="/invoice" element={<InvoiceReceipt />} /> 
             <Route path="/product/:productId" element={<ProductDetail/>} />
+            <Route path="/About-us" element={<AboutUs/>}/>
+            <Route path="/contact-us" element={<ContactUs/>}/>
           </Route>
         </Routes>
       </Router>

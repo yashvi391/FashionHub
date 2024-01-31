@@ -48,30 +48,16 @@ const NavBar = () => {
           <Nav.Link to="/" as={Link}>
             Products
           </Nav.Link>
+          <Nav.Link to="/contact-us" as={Link}>
+           ContactUs
+          </Nav.Link>
+          <Nav.Link to="/about-us" as={Link}>
+            AboutUs
+          </Nav.Link>
         </Nav>
         <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end">
-        {/* {searchTerm && (
-            <Dropdown align="end" className="mt-1">
-              <Dropdown.Toggle variant="success" id="dropdown-basic">
-                Search Results
-              </Dropdown.Toggle>
-              <Dropdown.Menu>
-                {allProducts.map((product) => (
-                  <Dropdown.Item key={product.id}>{product.title}</Dropdown.Item>
-                ))}
-              </Dropdown.Menu>
-            </Dropdown>
-          )} */}
-        {/* <div class="container text-center">
-        <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search Products" aria-label="Search" 
-      value={searchTerm} onChange={handleSearchChange}
-      />
-
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-    </form>
-    </div> */}
+       
           <Nav>
             <Nav.Link to="/card" as={Link}>
             <Bag size={20} className="me-1" />
@@ -80,35 +66,7 @@ const NavBar = () => {
           </Nav>
         </Navbar.Collapse>
       </Container>
-      {/* {status === StatusCode.LOADING && <p>Loading....</p>}
-      {status === StatusCode.ERROR && (
-        <Alert key="danger" variant="danger">
-          Something went wrong! Try again later
-        </Alert>
-      )} */}
-
-      {/* {searchTerm && (
-        <div className="container mt-2">
-          <h5>Search Results</h5>
-          <ul className="list-unstyled">
-          {filteredProducts.map((product) => (
-            <p key={product.id}>{product.title}</p>
-          ))}
-          </ul>
-        </div>
-      )} */}
-      {/* {searchTerm && (
-        <Dropdown align="end" className="mt-1">
-          <Dropdown.Toggle variant="success" id="dropdown-basic">
-            
-          </Dropdown.Toggle>
-          <Dropdown.Menu>
-            {allProducts.map((product) => (
-              <Dropdown.Item key={product.id}>{product.title}</Dropdown.Item>
-            ))}
-          </Dropdown.Menu>
-        </Dropdown>
-      )} */}
+      
     </Navbar>
     
  )

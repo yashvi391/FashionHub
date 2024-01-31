@@ -1,0 +1,69 @@
+.about-us-container {
+    padding: 40px 0;
+  }
+  
+  .about-us-heading {
+    color: #DC84F3;
+    font-size: 2.5rem;
+    font-weight: bold;
+  }
+  
+  .about-us-subheading {
+    /* color: #DC84F3; */
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: justify;
+  }
+  
+  .about-us-description {
+    color: #555;
+    font-size: 1.2rem;
+    line-height: 1.6;
+    text-align: justify;
+  }
+  .what-we-do-container {
+    margin-top: 40px;
+  }
+  
+  .what-we-do-heading {
+    /* color: #DC84F3; */
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: justify;
+  }
+  
+  .what-we-do-description {
+    color: #555;
+    font-size: 1.2rem;
+    line-height: 1.6;
+    text-align: justify;
+  }
+  
+  /* Styling for "Our Values" section */
+  .our-values-container {
+    margin-top: 40px;
+  }
+  
+  .our-values-heading {
+    /* color: #DC84F3; */
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: justify;
+  }
+  
+  .our-values-description {
+    color: #555;
+    font-size: 1rem;
+    line-height: 1.6;
+    text-align: justify;
+  }
+  .social-icons {
+    display: flexbox;
+    justify-content: space-between; /* Add space between icons */
+    margin-top: 20px; /* Add margin at the top */
+  }
+  
+  .icon {
+    margin-right: 10px; /* Add margin between icons */
+  }
+  
