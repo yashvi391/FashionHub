@@ -81,9 +81,9 @@ const Cart = () => {
         </Card.Body>
       </Card>
     </div>
-  ));
+  ))
 
-  return (
+ return (
     <>
     <div className="container-fluid">
       <div className="row">{cards}</div>
@@ -98,6 +98,5 @@ const Cart = () => {
     </>
   );
 };
-
 export default Cart;
 

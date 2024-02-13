@@ -20,7 +20,6 @@ const ProductDetail = () => {
     dispatch(add(product));
   }
 
- 
   return (
 //     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
 //       {/* Left side: Title, Price, and Description */}
@@ -66,7 +65,7 @@ const ProductDetail = () => {
           {product.description}
         </p>
         <p style={{ fontFamily: 'Arial, sans-serif', fontSize: '18px', fontWeight: 'bold', color: '#007BFF' }}>
-          Price: INR {product.price}
+          Price: INR {Math.floor(product.price*50).toLocaleString('en-IN')}
         </p>
           <div style={{ display: 'flex'}}>
   <Button variant="primary" onClick={() => addToCard(product)} className="button-gradient">
@@ -78,7 +77,6 @@ const ProductDetail = () => {
     </Button>
   </div> */}
 </div>
-
       </div>
     </div>
   );

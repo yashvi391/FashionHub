@@ -13,25 +13,22 @@
     background: linear-gradient(to right, #FFA500, #FFD700);
   }  */
   .button-gradient {
-    background: linear-gradient(to right, #AB47BC, #8E24AA);
-    /* background: linear-gradient(to right, #b47f2a, #FF9500);  */
+    background: linear-gradient(to right, #627f97, #06518f); /* Blue gradient */
     border: none;
     color: white;
     padding: 10px 20px;
     cursor: pointer;
-    transition: background 0.3s ease-in-out; /* Corrected transition property */
-    border-radius: 5px; /* Added for a smoother look */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15); /* Added for depth */
+    transition: background 0.3s ease-in-out;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
   }
   
-  /* Hover effect with a brighter orange gradient */
+  /* Hover effect with a brighter blue gradient */
   .button-gradient:hover {
-    background: linear-gradient(to right, #E94057, #AA00FF);
-
-    /* background: linear-gradient(to right, #d2b564, #ab6e25); */
-
+    background: linear-gradient(to right, #44575f, #03A9F4); /* Brighter blue gradient */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25); /* Enhanced shadow on hover */
   }
+  
   .card__one {
     transition: transform .5s;
   
@@ -57,3 +54,85 @@
       }
     }
   }
+  /* contact-us-container {
+    margin-top: 50px;
+    text-align: center;
+  }
+  
+  h1 {
+    color: #333;
+  }
+  
+  Button {
+    background-color: #a77b28;
+    border: none;
+    &:hover {
+      background-color: #218838;
+    }
+  } */
+  .center-link {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+.modal-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 2;
+}
+.pagination {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+}
+
+.page-item {
+  margin: 0 5px;
+}
+
+.page-link {
+  display: block;
+  padding: 10px;
+  color: #007bff;
+  background-color: #fff;
+  border: 1px solid #dee2e6;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.page-link:hover {
+  background-color: #007bff;
+  color: #fff;
+}
+.nav-link-custom {
+  display: flex;
+  align-items: center;
+  margin-right: 1rem;
+}
+
+
+.nav-link-custom:hover {
+  background-color: #080707; /* Change the background color on hover */
+  border-radius: 5px; /* Add rounded corners for a subtle effect */
+  transition: background-color 0.3s ease; /* Smooth transition for background color */
+}
+.nav-link-hover {
+  display: flex;
+  align-items: center;
+  margin-right: 1rem;
+}
+
+
+.nav-link-hover:hover {
+  background-color: #080707; /* Change the background color on hover */
+  border-radius: 5px; /* Add rounded corners for a subtle effect */
+  transition: background-color 0.3s ease; /* Smooth transition for background color */
+}
+

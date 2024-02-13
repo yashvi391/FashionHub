@@ -4,13 +4,15 @@ import { useSelector } from "react-redux";
 import { Card, Col, Container, Table, Button } from "react-bootstrap";
 import { useState } from "react";
 import { Row } from "react-bootstrap";
-
+// import firebase from 'firebase/app';
+// import 'firebase/messaging';
 
 // import { Twilio } from 'twilio';
 
 const InvoiceReceipt = () => {
   const products = useSelector((state) => state.cart);
   const [isOrderPlaced, setOrderPlaced] = useState(false);
+  // const [phoneNumber, setPhoneNumber] = useState('');
 
   const calculateItemTotal = (price, quantity) => {
     return price * quantity;
@@ -46,7 +48,7 @@ const InvoiceReceipt = () => {
   //     // route: "q",
   //     // numbers: phoneNumber,
   //     apiKey: apiKey,
-  //     phoneNumber: phoneNumber,
+  //     phoneNumber: phoneNumber,...
   //     message: message,
   //   });
   //   try {
@@ -197,6 +199,21 @@ const InvoiceReceipt = () => {
     // For now, just set the order placed flag to true
     setOrderPlaced(true);
   };
+  // const handleSendSMS = async () => {
+  //   try {
+  //     const messaging = firebase.messaging();
+  //     await Notification.requestPermission();
+  //     const token = await messaging.getToken();
+
+  //     console.log('Device Token:', token);
+
+  //     // Now, you can send the token to your backend server
+  //     // and use it to send an SMS using a third-party service.
+  //   } catch (error) {
+  //     console.error('Error:', error);
+  //   }
+  // };
+
   
 
   return (
@@ -247,17 +264,24 @@ const InvoiceReceipt = () => {
               </Table>
             </Card.Body>
             <div className="card-footer bg-black">
-              {/* {!isOrderPlaced && (
-                <Button variant="success" onClick={handlePlaceOrder}>
-                  Place Order
-                </Button>
-              )}
-              {isOrderPlaced && <p>Order Placed Successfully!</p>} */}
               {!isOrderPlaced && (
                 <Button variant="success" onClick={handlePlaceOrder}>
                   Place Order
                 </Button>
               )}
+              {/* {isOrderPlaced && <p>Order Placed Successfully!</p>} 
+               {!isOrderPlaced && (
+                <Button variant="success" onClick={handlePlaceOrder}>
+                  Place Order
+                </Button>
+              )}  */}
+              {/* <input
+        type="text"
+        placeholder="Enter phone number"
+        value={phoneNumber}
+        onChange={(e) => setPhoneNumber(e.target.value)}
+      />
+      <button onClick={handleSendSMS}>Send SMS</button> */}
               {isOrderPlaced && (
                 <p style={{ color: "green" }}>Order Placed Successfully!</p>
               )}
@@ -265,7 +289,6 @@ const InvoiceReceipt = () => {
           </Card>
         </Col>
       </Row>
-
       <Row className="justify-content-center">
         <Col xs={12} md={8}>
           <div className="row mt-3">
@@ -278,5 +301,5 @@ const InvoiceReceipt = () => {
     </Container>
   );
 };
-
+   
 export default InvoiceReceipt;
