@@ -40,7 +40,7 @@ const NavBar = () => {
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse className="justify-content-center">
-            <Nav className=" me-auto ">
+            <Nav className=" mx-auto" style={{ margin: '0 0' }}>
               <Nav.Link to="/" as={Link} className="nav-link-hover" style={{color:"white"}}>
                 Products
               </Nav.Link>

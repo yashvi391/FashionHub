@@ -1,9 +1,10 @@
 /* Login.css */
 
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa&display=swap');
-body {
-  background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);
-} 
+ 
+.login-body {
+  background: linear-gradient(90deg, #6b89d1 0%, #3d5995 100%);
+}
 
 .login {
   width: 360px;
@@ -75,3 +76,23 @@ body {
   font-size: 10px;
   color: red;
 }
+.pass-wrapper {
+  position: relative;
+}
+
+.password-input {
+  position: relative;
+}
+
+.password-input input {
+  padding-right: 30px; 
+}
+
+.password-input i {
+  position: absolute;
+  top: 50%;
+  right: 10px; 
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+

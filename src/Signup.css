@@ -2,16 +2,9 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa&display=swap');
 
-body {
-  /* background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%); */
-  /* background: linear-gradient(90deg, #8fa9d6 0%, #e2eff1 100%); */
-  /* background: linear-gradient(90deg, #e0f2f1 0%, #dce7ee 100%); */
-  /* background: linear-gradient(90deg, #7aaec3 0%, #d6e0e6 100%); */
+
+.signup-body {
   background: linear-gradient(90deg, #6b89d1 0%, #3d5995 100%);
-
-
-
-
 }
 
 .signup {
