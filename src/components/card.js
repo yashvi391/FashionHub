@@ -15,7 +15,7 @@ const Cart = () => {
   // const [showInvoice, setShowInvoice] = useState(false);
 
   const handleBuyNow = () => {
-    navigate("/invoice");
+    navigate("/dashboard/invoice");
   };
 
   const incrementQuantity = (productId) => {
@@ -31,14 +31,14 @@ const Cart = () => {
   };
 
   const calculateItemTotal = (price, quantity) => {
-    return price * quantity;
+    return price * quantity ;
   };
 
   const calculateTotal = () => {
     return products.reduce(
       (total, product) => total + product.price * product.quantity,
       0
-    );
+    )
   };
 
   const cards = products.map((product) => (
@@ -55,7 +55,7 @@ const Cart = () => {
           <Card.Text>INR: {product.price}</Card.Text>
           <Card.Text>Quantity: {product.quantity}</Card.Text>
           <Card.Text>
-            Item Total: {calculateItemTotal(product.price, product.quantity)}
+            Item Total: {calculateItemTotal(product.price, product.quantity *50)}
           </Card.Text>
           <Card.Footer style={{ background: "white" }}>
             <Button
@@ -88,7 +88,7 @@ const Cart = () => {
     <div className="container-fluid">
       <div className="row">{cards}</div>
       <div>
-        <h4>Total: INR {calculateTotal()}</h4>
+        <h4>Total: INR {calculateTotal()*50}</h4>
         <Button variant="primary" onClick={handleBuyNow}>
           Buy Now
         </Button>

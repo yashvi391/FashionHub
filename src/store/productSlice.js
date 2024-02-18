@@ -1,9 +1,14 @@
 import { createAsyncThunk, createSlice, } from "@reduxjs/toolkit";
 import StatusCode from "../utils/StatusCode";
-const initialState ={
-    data:[],
-    status:StatusCode.IDLE
+// const initialState ={
+//     data:[],
+//     status:StatusCode.IDLE
+// }
+const initialState = {
+  data: [],
+  status: StatusCode.IDLE
 }
+
 const productSlice =createSlice({
   name: "products",
   initialState,
@@ -32,6 +37,7 @@ export default productSlice.reducer;
 
 export const getProducts =createAsyncThunk('products/get',async()=>{
     const data = await fetch('https://fakestoreapi.com/products')
+    // const data = await fetch('http://localhost:8081/products')
     const result=data.json();
     return result;
 })

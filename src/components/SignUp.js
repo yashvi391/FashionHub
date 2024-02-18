@@ -298,7 +298,9 @@ const SignUp = () => {
   const navigate = useNavigate();
 
   const validationSchema = Yup.object().shape({
+    name: Yup.string().required('Name is required'),
     email: Yup.string().email('Invalid email address').required('Email is required'),
+    address: Yup.string().required('Address is required'),
     password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
     confirmPassword: Yup.string()
       .oneOf([Yup.ref('password'), null], 'Passwords must match')
@@ -307,9 +309,11 @@ const SignUp = () => {
 
   const formik = useFormik({
     initialValues: {
+      name: '',
       email: '',
       password: '',
       confirmPassword: '',
+      address: '',
     },
     validationSchema,
     onSubmit: async (values) => {
@@ -329,11 +333,14 @@ const SignUp = () => {
             email: values.email,
             password: values.password,
             confirm_password: values.confirmPassword,
+            name: values.name, 
+            address:values.address,
           }),
         });
 
         if (response.ok) {
           console.log('Signup successful!');
+          localStorage.setItem('userDetails', JSON.stringify({ name: values.name, email: values.email }));
           navigate('/login', true);
         } else {
           // Check if response has a body before attempting to parse JSON
@@ -365,6 +372,17 @@ const SignUp = () => {
       <div className="form">
         <form onSubmit={formik.handleSubmit}>
           <span>Sign Up</span>
+          <input
+            type="text"
+            name="name"
+            placeholder="Enter your name"
+            className={`form-control inp_text ${formik.touched.name && formik.errors.name ? 'is-invalid' : ''}`}
+            value={formik.values.name}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            required
+          />
+          {formik.touched.name && formik.errors.name && <div className="invalid-feedback">{formik.errors.name}</div>}
 
           <input
             type="email"
@@ -377,6 +395,17 @@ const SignUp = () => {
             required
           />
           {formik.touched.email && formik.errors.email && <div className="invalid-feedback">{formik.errors.email}</div>}
+          <input
+            type="address"
+            name="address"
+            placeholder="Enter Address"
+            className={`form-control inp_text ${formik.touched.address && formik.errors.address ? 'is-invalid' : ''}`}
+            value={formik.values.address}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            required
+          />
+          {formik.touched.address && formik.errors.address && <div className="invalid-feedback">{formik.errors.address}</div>}
 
           <input
             type="password"

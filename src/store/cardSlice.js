@@ -28,7 +28,7 @@ const cardSlice = createSlice({
         existingProduct.quantity += 1;
       } else {
         state.push({ id, title, price, image, quantity: 1 });
-      }
+      } 
     },
     remove: (state, action) => {
       const productId = action.payload;

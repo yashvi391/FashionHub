@@ -197,9 +197,11 @@ import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { ToastContainer, toast } from 'react-toastify';
 import '../login.css';
 
 const Login = () => {
+  const[name,setname]=useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -218,6 +220,16 @@ const Login = () => {
   const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: yupResolver(schema),
   });
+  const notifyError = (message) => {
+    toast.error(message, {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+    });
+  };
 
   const onSubmit = async (data) => {
     try {
@@ -232,6 +244,7 @@ const Login = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
+          name:data.name,
           email: data.email,
           password: data.password,
         }),
@@ -243,10 +256,25 @@ const Login = () => {
       if (response.ok) {
         // Successful login
         console.log('Login successfully');
-        navigate('/product');
+        // console.log(responseData.email);
+        localStorage.setItem('username',data.name)
+        localStorage.setItem('email',data.email)
+        // navigate('/product');
+        navigate('/dashboard/product'); 
       } else {
         console.error('Login failed');
+
         setError('Login failed. Please check your credentials.');
+        if (responseData.error === 'password incorrect') {
+          notifyError('Password incorrect. Please try again.');
+        } else if (responseData.error === 'Username incorrect') {
+          notifyError('Username incorrect. Please try again.');
+        } else if (responseData.error === 'email incorrect') {
+          notifyError('Email incorrect. Please try again.');
+        } else {
+          // If there is a generic error, you can display a generic message
+          notifyError('Login failed. Please check your email or password.');
+        }
       }
     } catch (error) {
       // Handle validation errors
@@ -263,9 +291,20 @@ const Login = () => {
 
   return (
     <div className="login">
+     <ToastContainer />
       <div className="form">
         <form onSubmit={handleSubmit(onSubmit)} noValidate>
           <span>Login</span>
+          <input
+            type="name"
+            name="name"
+            placeholder="Enter  username"
+            className={`form-control inp_text ${errors.name ? 'is-invalid' : ''}`}
+            id="name"
+            {...register('name')}
+            required
+          />
+          {errors.name && <div className="invalid-feedback">{errors.name.message}</div>}
 
           <input
             type="email"
