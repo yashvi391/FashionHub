@@ -194,7 +194,7 @@ import { Form, Button, Container } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-import { useForm } from 'react-hook-form';
+import { get, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { ToastContainer, toast } from 'react-toastify';
@@ -206,6 +206,9 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const [emailForReset, setEmailForReset] = useState('');
+  const [otp, setOtp] = useState('');
+  const [newPassword, setNewPassword] = useState('');
 
   const [passwordShown, setPasswordShown] = useState(false);
   const togglePasswordVisibility = () => {
@@ -260,6 +263,7 @@ const Login = () => {
         localStorage.setItem('username',data.name)
         localStorage.setItem('email',data.email)
         // navigate('/product');
+        // setIsLoggedIn(true);
         navigate('/dashboard/product'); 
       } else {
         console.error('Login failed');
@@ -282,6 +286,34 @@ const Login = () => {
       setError('Validation failed. Please check your input.');
     }
   };
+  const handleForgotPassword = async () => {
+    try {
+      const response = await fetch('http://localhost:8081/forgot-password', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: emailForReset,
+        }),
+      });
+
+      const responseData = await response.json();
+      console.log(responseData);
+
+      if (response.ok) {
+        notifyError('OTP sent successfully. Check your email.');
+      } else {
+        console.error('Failed to send OTP:', responseData.error);
+        notifyError('Failed to send OTP. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error while sending OTP:', error);
+      notifyError('Failed to send OTP. Please try again.');
+    }
+  };
+
+  
   useEffect(() => {
     document.body.classList.add('login-body');
     return () => {
@@ -339,6 +371,7 @@ const Login = () => {
           </div>
 
           <button type="submit">Login</button>
+          <Link to="/forgot-password">Forgot Password?</Link>
         </form>
 
         <p className="mt-3">

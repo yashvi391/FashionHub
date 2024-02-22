@@ -10,13 +10,12 @@ import { Link } from 'react-router-dom';
 import { Button as BootstrapButton,Toast } from 'react-bootstrap';
 // import ProductDetail from "./ProductDetail";
 import ReactPaginate from 'react-paginate';
-import { BsCheck } from 'react-icons/bs'; 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { css } from "@emotion/react";
-import { DotLoader } from "react-spinners";
-// import { RingLoader } from "react-spinners";
 import axios from 'axios';
+import loadingGif from '../assets/img.gif'; 
+
 
 import "../Style.css";
 
@@ -47,76 +46,35 @@ const Product = () => {
     dispatch(getProducts());
     setSelectedCategory('');
   }, [dispatch]);
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       // const response = await axios.get('https://fakestoreapi.com/products');
-  //       const response = await axios.get('http://localhost:8081/products');
-  //       dispatch(getProducts(response.data));
-  //       console.log(response.data);
-  //     } catch (error) {
-  //       console.error('Error fetching data:', error);
-  //     }
-  //   };
-
-  //   fetchData();
-  //   setSelectedCategory('');
-  // }, [dispatch]);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('https://fakestoreapi.com/products');
-        // const response = await axios.get('http://localhost:8081/products');
+        // const response = await axios.get('https://fakestoreapi.com/products');
+        const response = await axios.get('http://localhost:8081/fetchproduct');
         dispatch(getProducts(response.data));
         console.log(response.data);
       } catch (error) {
         console.error('Error fetching data:', error);
-  
-        // Check if the error is related to a network issue
-        if (error.response) {
-          // The request was made, but the server responded with a status code
-          // other than 2xx.
-          console.error('Response data:', error.response.data);
-          console.error('Response status:', error.response.status);
-          console.error('Response headers:', error.response.headers);
-        } else if (error.request) {
-          // The request was made but no response was received.
-          console.error('No response received. Check your network connection.');
-        } else {
-          // Something happened in setting up the request that triggered an Error.
-          console.error('Error setting up the request:', error.message);
-        }
       }
     };
-  
-    fetchData();
-  }, [dispatch]);
-  
 
+    fetchData();
+    setSelectedCategory('');
+  }, [dispatch]);
  
-  
-  // useEffect(() => {
-  //   const startIndex = currentPage * itemsPerPage;
-  //   const endIndex = startIndex + itemsPerPage;
-  //   const filtered = products.filter((product) =>
-  //     product.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
-  //     (selectedCategory === '' || product.category === selectedCategory)
-  //   );
-  //   setFilteredProducts(filtered.slice(startIndex, endIndex));
-  // }, [products, searchTerm, selectedCategory, currentPage, itemsPerPage]);
   useEffect(() => {
     const startIndex = currentPage * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-
+  
     // Check if products.data is an array before filtering
     const filtered = Array.isArray(products) ? products.filter((product) =>
-      product.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
+      product.title && product.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
       (selectedCategory === '' || product.category === selectedCategory)
     ) : [];
-
+  
     setFilteredProducts(filtered.slice(startIndex, endIndex));
   }, [products, searchTerm, selectedCategory, currentPage, itemsPerPage]);
-
+  
   
   const handlePageClick = ({ selected }) => {
     setCurrentPage(selected);
@@ -126,7 +84,8 @@ const Product = () => {
   if(status===StatusCode.LOADING){
     return (
       <div className="loading-container">
-        <DotLoader css={override} size={150} color={"blue"} loading={true} />
+       <img src={loadingGif} alt="Loading..." />
+        {/* <DotLoader css={override} size={150} color={"blue"} loading={true} /> */}
         {/* <RingLoader css={override} size={100} color={"blue"} loading={true} /> */}
         <p>Loading</p>
       </div>
@@ -167,8 +126,6 @@ const Product = () => {
       draggable: true,
     });
    
-    
-
   };
   const categories = ["electronics", "jewelery", "men's clothing", "women's clothing"];
    
@@ -178,7 +135,7 @@ const Product = () => {
       <Card className=" card__one h-100 mx-auto">
         {/* <Card.Img variant="top" src={product.image} style={{ width: '100px', height: '130px' }} /> */}
         <Link to={`/dashboard/product/${product.id}`}className="d-flex justify-content-center align-items-center">
-          <Card.Img variant="top" src={product.image} style={{ width: '100px', height: '130px', objectFit: 'cover' }} />
+          <Card.Img variant="top" src={product.image} style={{ width: '100px', height: '130px', objectFit: 'cover', padding:'10px' }} />
         </Link>
         <Card.Body>
           <Card.Title>{product.title}</Card.Title>
@@ -211,13 +168,23 @@ const Product = () => {
     <div className="container">
     
       <h1 className="text-center mb-4">Product Dashboard</h1>
-      <div className="mb-3 text-center">
+      {/* <div className="mb-3 text-center">
         <input
           type="text"
           value={searchTerm}  
           onChange={(e) => setSearchTerm(e.target.value)}
           placeholder="Search Products..."
         />
+      </div> */}
+      <div className="search-bar-container">
+        <input
+          type="text"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="search-bar"
+          placeholder="Search Products..."
+        />
+        {/* <BsSearch className="search-icon" size={20} /> */}
       </div>
       <div className="mb-3 d-flex justify-content-center">
       <Dropdown onSelect={(category) => setSelectedCategory(category)} style={{ marginBottom: '20px'}}>

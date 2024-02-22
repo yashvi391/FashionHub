@@ -52,7 +52,7 @@ const ProductDetail = () => {
         <img
           src={product.image}
           alt={product.title}
-          style={{ maxWidth: '100%', maxHeight: '400px', width: 'auto', height: 'auto', boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)' }}
+          style={{ maxWidth: '100%', maxHeight: '400px', width: 'auto', height: 'auto', boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)'}}
         />
       </div>
 

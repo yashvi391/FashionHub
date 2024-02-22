@@ -394,14 +394,14 @@ const NavBar = () => {
 
   return (
     <Navbar expand="lg" collapseOnSelect style={{ backgroundColor: '#6495ED' }}>
-      <Container fluid>
+      <Container fluid className="d-flex justify-content-between align-items-center">
         <Navbar.Brand as={Link} to="/" style={{ display: 'flex', alignItems: 'center', color: 'white' }}>
-          <img src={logo} alt="Fashion Shop Logo" height="40" width="60" className="me-2" />
+          <img src={logo} alt="Fashion Shop Logo" height="40" width="60" className="me-2" style={{ marginRight: '15px' }} />
           <h3 style={{ marginBottom: 0, fontSize: '1.5rem', color: 'white' }}>Fashion Hub</h3>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="me-auto">
+          <Nav className="mx-auto">
             <Nav.Link to="/dashboard/product" as={Link} className="nav-link-hover" style={{ color: 'white' }}>
               Products
             </Nav.Link>
@@ -426,13 +426,13 @@ const NavBar = () => {
               transition: 'background-color 0.3s ease',
             }}
           >
-            <Bag size={20} className="me-1" />
+            <Bag size={20} className="me-1" style={{ marginRight: '10px' }}/>
             My Bag {cardProducts.length}
           </Nav.Link>
           <NavDropdown
             align="end"
             title={
-              <div className="d-flex align-items-center hidden-arrow">
+              <div className="d-flex align-items-center ">
                 <img
                   src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
                   className="rounded-circle"
@@ -443,8 +443,8 @@ const NavBar = () => {
               </div>
             }
             id="navbarDropdownMenuAvatar"
-            className="nav-link-custom"
-            style={{ right: 0, left: 'auto' }} 
+            className="nav-link-custom  no-caret"
+            style={{ width: '100px',paddingRight: '5px'}}
           >
             <NavDropdown.Item disabled>
               Welcome, {localStorage.getItem('username')}

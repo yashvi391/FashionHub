@@ -134,3 +134,50 @@
   border-radius: 5px; /* Add rounded corners for a subtle effect */
   transition: background-color 0.3s ease; /* Smooth transition for background color */
 }
+.loading-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+/* Add these styles for the animated search bar */
+.search-bar-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.search-bar {
+  width: 30%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  padding-right: 40px;
+  border-radius: 5px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.search-bar:focus {
+  border-color: #627f97;
+}
+
+.search-icon {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.search-icon:hover {
+  color: #627f97;
+}
+#navbarDropdownMenuAvatar::after {
+  display: none !important;
+}
+
+
