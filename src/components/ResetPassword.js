@@ -4,38 +4,80 @@ const ResetPassword = () => {
  const [email, setEmail] = useState('');
   const [otp, setOtp] = useState('');
   const [newPassword, setNewPassword] = useState('');
+  const [confirm_password, setConfirmPassword] = useState('');
 
-  const handleResetPassword = async () => {
-    try {
-      // Call the backend endpoint to reset the password
-      const response = await fetch('http://localhost:8081/reset-password', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email,
-          otp,
-          newPassword,
-        }),
-      });
-      const responseData = await response.json();
-      console.log(responseData);
 
-      if (response.ok) {
-        // Password reset successfully
-        alert('Password reset successfully.');
-        // You can redirect the user to the login page or handle it as needed
-      } else {
-        // Handle error
-        console.error('Failed to reset password:', responseData.error);
-        alert('Failed to reset password. Please check your OTP and try again.');
-      }
-    } catch (error) {
-      console.error('Error while resetting password:', error);
-      alert('Failed to reset password. Please try again.');
+    // const handleResetPassword = async () => {
+    //   try {
+    //     // Call the backend endpoint to reset the password
+    //     const response = await fetch('http://localhost:8081/reset-password', {
+    //       method: 'POST',
+    //       headers: {
+    //         'Content-Type': 'application/json',
+    //       },
+    //       body: JSON.stringify({
+    //         email,
+    //         otp,
+    //         newPassword,
+    //       }),
+    //     });
+    //     const responseData = await response.json();
+    //     console.log(responseData);
+
+    //     if (response.ok) {
+    //       // Password reset successfully
+    //       alert('Password reset successfully.');
+    //       // You can redirect the user to the login page or handle it as needed
+    //     } else {
+    //       // Handle error
+    //       console.error('Failed to reset password:', responseData.error);
+    //       alert(`Failed to reset password. ${responseData.error || 'Please check your OTP and try again.'}`);
+    //     }
+    //   } catch (error) {
+    //     console.error('Error while resetting password:', error);
+    //     alert('Failed to reset password. Please try again.');
+    //   }
+    // };
+    const handleResetPassword = async () => {
+  try {
+    // Check if the new password and confirm password match
+    if (newPassword !== confirm_password) {
+      alert('New password and confirm password do not match.');
+      return;
     }
-  };
+
+    // Call the backend endpoint to reset the password
+    const response = await fetch('http://localhost:8081/reset-password', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email,
+        otp,
+        newPassword,
+        confirm_password,
+      }),
+    });
+    const responseData = await response.json();
+    console.log(responseData);
+    console.log('New Password:', newPassword);
+    console.log('Confirm Password:', confirm_password);
+
+    if (response.ok) {
+      // Password reset successfully
+      alert('Password reset successfully.');
+      // You can redirect the user to the login page or handle it as needed
+    } else {
+      console.error('Failed to reset password:', responseData.error);
+      alert(`Failed to reset password. ${responseData.error || 'Please check your OTP and try again.'}`);
+    } 
+  } catch (error) {
+    console.error('Error while resetting password:', error);
+    alert('Failed to reset password. Please try again.');
+  }
+};
+
   const handleSendOTP = async () => {
     try {
       // Call the backend endpoint to send OTP to the provided email
@@ -62,36 +104,6 @@ const ResetPassword = () => {
     }
   };
   
-  // const handleSendOTP = async () => {
-  //   try {
-  //     // Call the backend endpoint to send OTP to the provided email
-  //     const response = await fetch('http://localhost:8081/send-otp', {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //       body: JSON.stringify({
-  //         email,
-  //       }),
-  //     });
-
-  //     const responseData = await response.json();
-  //     console.log(responseData);
-
-  //     if (response.ok) {
-  //       // OTP sent successfully
-  //       alert('OTP sent successfully.');
-  //     } else {
-  //       // Handle error
-  //       console.error('Failed to send OTP:', responseData.error);
-  //       alert('Failed to send OTP. Please check your email and try again.');
-  //     }
-  //   } catch (error) {
-  //     console.error('Error while sending OTP:', error);
-  //     alert('Failed to send OTP. Please try again.');
-  //   }
-  // };
-
   const handleVerifyOTP = async () => {
     // Implement the logic to verify the OTP
     try {
@@ -147,7 +159,7 @@ const ResetPassword = () => {
           <label>Enter OTP:</label>
           <div className="otp-input">
             <input
-              type="text"
+              type="otp"
               value={otp}
               onChange={(e) => setOtp(e.target.value)}
             />
@@ -159,7 +171,12 @@ const ResetPassword = () => {
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
           />
-
+           <label>Confirm Password:</label>
+          <input
+            type="password"
+            value={confirm_password}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
           <button type="button" onClick={handleResetPassword}>Reset Password</button>
         </form>
       </div>

@@ -134,12 +134,19 @@
   border-radius: 5px; /* Add rounded corners for a subtle effect */
   transition: background-color 0.3s ease; /* Smooth transition for background color */
 }
-.loading-container {
+/* .loading-container {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
+} */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; 
 }
 /* Add these styles for the animated search bar */
 .search-bar-container {

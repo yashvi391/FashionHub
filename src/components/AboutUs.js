@@ -1,15 +1,17 @@
 import React from 'react'
 import { Container,Row,Col } from 'react-bootstrap';
 import { Facebook, Youtube, Twitter, Instagram } from 'react-bootstrap-icons';
+import AboutUsImage from '../assets/About as.jpg';
 import '../AboutUs.css';
 
 const AboutUs=()=> {
   return (
-    <div className="about-us-container">
+    <div className="about-us-container text-center">
       <Container>
       <Row>
           <Col>
             <h1 className="about-us-heading">Fashion Hub: Where Style Meets Innovation</h1>
+            <img src={AboutUsImage} alt="Fashion Hub Logo" className="logo-image" />
             <p className="about-us-description">
               Welcome to Fashion Hub, your one-stop shop for all things fashion, where the latest trends meet cutting-edge technology. We're not just an e-commerce platform – we're your personal style concierge, passionate about connecting you with the perfect outfit, the hottest accessories, and the confidence to express yourself uniquely.
             </p>

@@ -85,8 +85,6 @@ const Product = () => {
     return (
       <div className="loading-container">
        <img src={loadingGif} alt="Loading..." />
-        {/* <DotLoader css={override} size={150} color={"blue"} loading={true} /> */}
-        {/* <RingLoader css={override} size={100} color={"blue"} loading={true} /> */}
         <p>Loading</p>
       </div>
     );
