@@ -36,6 +36,8 @@ app.post('/login', async (req, res) => {
   try {
     console.log(req.body);
     const { email, password } = req.body;
+    console.log("Email: ",email);
+    console.log("Password : ",password);
     const user = await new Promise((resolve, reject) => {
       db.query("SELECT * FROM users WHERE email = ? AND password = ?", [email, password], (err, results) => {
         if (err) {
@@ -115,6 +117,7 @@ const otpStore = {};
 app.post('/send-otp', async (req, res) => {
   try {
     const { email } = req.body;
+    console.log(email);
 
     // Generate a random 6-digit OTP
     const otp = Math.floor(100000 + Math.random() * 900000).toString();

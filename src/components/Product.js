@@ -49,7 +49,6 @@ const Product = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // const response = await axios.get('https://fakestoreapi.com/products');
         const response = await axios.get('http://localhost:8081/fetchproduct');
         dispatch(getProducts(response.data));
         console.log(response.data);
