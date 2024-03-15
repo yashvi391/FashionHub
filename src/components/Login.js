@@ -371,7 +371,7 @@ const Login = () => {
           </div>
 
           <button type="submit">Login</button>
-          <Link to="/forgot-password">Forgot Password?</Link>
+          <Link to="/send-otp">Forgot Password?</Link>
         </form>
 
         <p className="mt-3">

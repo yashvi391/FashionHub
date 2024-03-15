@@ -21,8 +21,8 @@ const db = mysql.createConnection({
 app.post('/signup', async (req, res) => {
   try {
     console.log(req.body); 
-    const sql = "INSERT INTO users (`email`, `password`,`confirm_password`,`name`,`address`) VALUES (?,?,?,?,?)"; // Assuming id is auto-generated and confirm_password is not needed
-   const values = [req.body.email, req.body.password,req.body.confirm_password,req.body.name,req.body.address];
+    const sql = "INSERT INTO users (`email`, `password`,`confirmPassword`,`name`,`address`) VALUES (?,?,?,?,?)"; // Assuming id is auto-generated and confirmPassword is not needed
+   const values = [req.body.email, req.body.password,req.body.confirmPassword,req.body.name,req.body.address];
     console.log("values",values)
     await db.query(sql, values);
 
@@ -68,34 +68,16 @@ app.get("/fetchproduct",(req,res)=>{
     }
   })
 })
-// const users = [
-//   { email: 'yashvimer7@gmail.com', otp: '', password: 'oldPassword' },
-// ];
-// app.post('/reset-password', (req, res) => {
-//   const { email, otp, newPassword } = req.body;
-
-//   // Simulate password reset logic
-//   const user = users.find((user) => user.email === email && user.otp === otp);
-
-//   if (user) {
-//     // Update the user's password (replace this with your actual database update logic)
-//     user.password = newPassword;
-
-//     res.status(200).json({ message: 'Password reset successfully' });
-//   } else {
-//     res.status(400).json({ error: 'Failed to reset password. Invalid OTP or email' });
-//   }
-// });
 app.post("/reset-password", (req, res) => {
-  const { email, otp, newPassword, confirm_password } = req.body;
+  const { email, otp, newPassword, confirmPassword } = req.body;
+  console.log("Lets Check Email:",email);
   console.log('Received Data:', req.body); 
   console.log('newPassword:', newPassword);
-console.log('confirmPassword:', confirm_password);
+console.log('confirmPassword:', confirmPassword);
   // Check if newPassword and confirmPassword match
-  if (newPassword !== confirm_password) {
+  if (newPassword != confirmPassword) {
     return res.status(400).json({ error: 'New password and confirm password do not match.' });
   }
-
   // Find the user in the database
   db.query('SELECT * FROM users WHERE email = ?', [email], (err, results) => {
     if (err) {
@@ -107,7 +89,7 @@ console.log('confirmPassword:', confirm_password);
     if (results.length === 0) {
       return res.status(400).json({ error: 'User not found.' });
     }
-    const user = results[0];
+    const user = results[0]; 
 
     // Check if the provided OTP matches the stored OTP
 
@@ -117,9 +99,8 @@ console.log('confirmPassword:', confirm_password);
       return res.status(400).json({ error: 'Invalid OTP. Please check and try again.' });
     }
     
-
     // If OTP verification is successful, update the password
-    db.query('UPDATE users SET password = ?, confirm_password = ? ,otp = NULL WHERE email = ?', [newPassword,confirm_password ,email], (updateErr) => {
+    db.query('UPDATE users SET password = ?, confirm_password = ? ,otp = NULL WHERE email = ?', [newPassword,confirmPassword ,email], (updateErr) => {
       if (updateErr) {
         console.error('Error updating password:', updateErr);
         return res.status(500).json({ error: 'Internal server error.' });
@@ -129,6 +110,7 @@ console.log('confirmPassword:', confirm_password);
     });
   });
 });
+
 const otpStore = {};
 app.post('/send-otp', async (req, res) => {
   try {
@@ -140,14 +122,12 @@ app.post('/send-otp', async (req, res) => {
     otpStore.email = email
     otpStore.otp = otp
 
-    
     try {
       db.query('UPDATE users SET otp = ? WHERE email = ?', [otp, email], (updateErr) => {
         if (updateErr) {
           console.error('Error while sending OTP:', updateErr);
           return res.status(500).json({ error: 'Failed to send otp.' });
         }
-
         // res.status(200).json({ message: 'OTP Sent!.' });
       });
     } catch (error) {
@@ -185,45 +165,37 @@ app.post('/send-otp', async (req, res) => {
     res.status(500).json({ error: 'Failed to send OTP email' });
   }
 });
+
 app.post('/verify-otp', (req, res) => {
   const { email, otp } = req.body;
 
   try {
-    db.query('SELECT * FROM users WHERE email = ?', [email], (err, results) => {
+    db.query('SELECT * FROM users WHERE email = ? AND otp = ?', [email, otp], (err, results) => {
       if (err) {
         console.error('Error querying database:', err);
         return res.status(500).json({ error: 'Internal server error.' });
       }
-      if (results.length === 0) {
-        return res.status(400).json({ error: 'User not found.' });
+
+      if (results.length > 0) {
+        // User found with matching OTP
+        // Clear the OTP from the database after successful verification (for security reasons)
+        db.query('UPDATE users SET otp = NULL WHERE email = ?', [email], (updateErr) => {
+          if (updateErr) {
+            console.error('Error clearing OTP:', updateErr);
+            return res.status(500).json({ error: 'Internal server error.' });
+          }
+
+          return res.json({ success: true, message: 'OTP verified successfully.' });
+        });
+      } else {
+        // User not found or OTP doesn't match
+        return res.status(401).json({ error: 'Invalid OTP or user not found.' });
       }
-      const user = results[0];
-      console.log(user);
-      if(user.otp == otp){
-        console.log({ error: false, message: "success" })
-        return res.json({ error: false })
-      }
-  
-    })
+    });
   } catch (error) {
-    return res.status(500).json({ error: true , message: error.message })
-  }
- 
-
-  
-
-  // Check if the provided OTP matches the stored OTP for the given email
-  /* if (email == otp) {
-    // Clear the OTP from memory after successful verification (for security reasons)
-    // delete otpStore[email];
-    return res.json({ success: true });
-  } else {
-    res.status(401).json({ error: 'Invalid OTP' });
-  } */
+    return res.status(500).json({ error: true, message: error.message });
+  } 
 });
-
-
-
 app.listen(8081, () => {
   console.log("Server is listening on port 8081");
 });

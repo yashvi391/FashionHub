@@ -192,6 +192,8 @@ import ContactUs from './components/ContactUs';
 import Login from './components/Login';
 import SignUp from './components/SignUp';
 import Product from './components/Product';
+import SendOtp from './components/SendOtp';
+import VerifyOtp from './components/VerifyOtp';
 import ResetPassword from './components/ResetPassword';
 
 
@@ -209,8 +211,14 @@ function App() {
           {/* Define login and signup routes */}
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/forgot-password" element={<ResetPassword />} />
-          
+          <Route path="verify-otp" element={<VerifyOtp />} />
+            <Route path="reset-password" element={<ResetPassword />} />
+        
+
+           <Route path="/send-otp" element={<SendOtp />}>
+            {/* <Route path="verify-otp" element={<VerifyOtp />} />
+            <Route path="reset-password" element={<ResetPassword />} /> */}
+          </Route> 
 
           
           <Route path="/dashboard" element={<RootLayout />}>
