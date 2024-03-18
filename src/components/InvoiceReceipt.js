@@ -300,8 +300,7 @@
 //       </Row>
 //     </Container>
 //   );
-// };
-   
+// };  
 // export default InvoiceReceipt;
 import React from "react";
 import { useSelector,useDispatch } from "react-redux";
@@ -427,6 +426,55 @@ const InvoiceReceipt = () => {
           </div>
         </Col>
       </Row>
+      {/* Tracking Order */}
+      {/* <Row className="justify-content-center">
+        <Col xs={12} md={8}>
+          <p className="lead fw-bold mb-4 pb-2" style={{ color: "#f37a27" }}>
+            Tracking Order
+          </p>
+          <div className="horizontal-timeline">
+            <ul className="list-inline items d-flex justify-content-between">
+              <li className="list-inline-item items-list">
+                <p
+                  className="py-1 px-2 rounded text-white"
+                  style={{ backgroundColor: "#f37a27" }}
+                >
+                  Ordered
+                </p>
+              </li>
+              <li className="list-inline-item items-list">
+                <p
+                  className="py-1 px-2 rounded text-white"
+                  style={{ backgroundColor: "#f37a27" }}
+                >
+                  Shipped
+                </p>
+              </li>
+              <li className="list-inline-item items-list">
+                <p
+                  className="py-1 px-2 rounded text-white"
+                  style={{ backgroundColor: "#f37a27" }}
+                >
+                  On the way
+                </p>
+              </li>
+              <li
+                className="list-inline-item items-list text-end"
+                style={{ marginRight: "-8px" }}
+              >
+                <p style={{ marginRight: "-8px" }}>Delivered</p>
+              </li>
+            </ul>
+            <div className="status-line"></div> 
+            <div className="dots-container">
+        <div className="dot"></div>
+        <div className="dot"></div>
+        <div className="dot"></div>
+        <div className="dot"></div>
+      </div>
+          </div>
+        </Col>
+      </Row> */}
     </Container>
   );
 };

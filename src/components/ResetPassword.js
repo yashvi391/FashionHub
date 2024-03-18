@@ -1,10 +1,12 @@
 
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom"; 
 import "../resetpassword.css";
 
 const ResetPassword = () => {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleResetPassword = async () => {
     try {
@@ -12,7 +14,7 @@ const ResetPassword = () => {
       if (newPassword !== confirmPassword) {
         alert("New password and confirm password do not match.");
         return;
-      }
+      } 
       const email = localStorage.getItem("email")
       // Call the backend endpoint to reset the password
       const response = await fetch("http://localhost:8081/reset-password", {
@@ -23,7 +25,6 @@ const ResetPassword = () => {
         body: JSON.stringify({
           email,
           newPassword,
-          // confirm_password:confirmPassword,
           confirmPassword,
         }),
       });
@@ -33,6 +34,7 @@ const ResetPassword = () => {
       if (response.ok) {
         // Password reset successfully
         alert("Password reset successfully.");
+        navigate("/login"); 
         // You can redirect the user to the reset password page or handle it as needed
       } else {
         console.error("Failed to reset password:", responseData.error);
