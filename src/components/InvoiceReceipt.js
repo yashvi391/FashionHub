@@ -302,23 +302,233 @@
 //   );
 // };  
 // export default InvoiceReceipt;
-import React from "react";
-import { useSelector,useDispatch } from "react-redux";
-import { Card, Col, Container, Table, Button } from "react-bootstrap";
-import { useState } from "react";
-import { Row } from "react-bootstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import {remove} from "../store/cardSlice";
+// import React, { useState } from "react";
+// import { useSelector, useDispatch } from "react-redux";
+// import { Card, Col, Container, Table, Button, Alert } from "react-bootstrap";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { faTrash } from "@fortawesome/free-solid-svg-icons";
+// import { remove } from "../store/cardSlice";
+// import { Row } from "react-bootstrap";
+
+// const InvoiceReceipt = () => {
+//   const products = useSelector((state) => state.cart);
+//   const [isOrderPlaced, setOrderPlaced] = useState(false);
+//   const [orderInfo, setOrderInfo] = useState({
+//     status: "Ordered",
+//     orderDate: null,
+//     deliveryDate: null,
+//   });
+//   const dispatch = useDispatch();
+
+//   const calculateItemTotal = (price, quantity) => {
+//     return price * quantity * 50;
+//   };
+
+//   const calculateTotal = () => {
+//     return products.reduce(
+//       (total, product) => total + product.price * product.quantity,
+//       0
+//     );
+//   };
+
+//   const formatToIndianCurrency = (amount) => {
+//     return amount.toLocaleString("en-IN", {
+//       style: "currency",
+//       currency: "INR",
+//     });
+//   };
+
+//   const handlePlaceOrder = () => {
+//     setOrderPlaced(true);
+//     const orderDate = new Date().toLocaleDateString();
+//     const deliveryDate = new Date();
+//     deliveryDate.setDate(deliveryDate.getDate() + 2);
+//     setOrderInfo({
+//       ...orderInfo,
+//       status: "Delivered",
+//       orderDate: orderDate,
+//       deliveryDate: deliveryDate.toLocaleDateString(),
+//     });
+//   };
+
+//   const handleRemoveItem = (productId) => {
+//     dispatch(remove(productId));
+//   };
+
+//   return (
+//     <Container className="invoice-receipt text-center">
+//       <Row>
+//         <Col>
+//           <h1>Invoice</h1>
+//           <p>Date: {new Date().toLocaleDateString()}</p>
+//         </Col>
+//       </Row>
+
+//       {products.length === 0 && ( // Show message to add products if no products are present
+//         <Alert variant="info">
+//           No products added to the invoice. Please add products to proceed.
+//         </Alert>
+//       )}
+
+//       {products.length > 0 && ( // Render invoice table if products are present
+//         <Row className="justify-content-center">
+//           <Col xs={12} md={8}>
+//             <Card className="border border-dark">
+//               <div className="card-header bg-black"></div>
+//               <Card.Body>
+//                 <Table bordered={false} hover responsive>
+//                   <thead>
+//                     <tr>
+//                       <th>Product </th>
+//                       <th>Product Name</th>
+//                       <th>Product ID</th>
+//                       <th>Price (INR)</th>
+//                       <th>Quantity</th>
+//                       <th>Sub Total</th>
+//                       <th>Remove</th>
+//                     </tr>
+//                   </thead>
+//                   <tbody>
+//                     {products.map((product) => (
+//                       <tr key={product.id}>
+//                         <td>
+//                           <img
+//                             src={product.image}
+//                             alt={product.title}
+//                             style={{ width: "50px", height: "50px" }}
+//                           />
+//                         </td>
+//                         <td>{product.title}</td>
+//                         <td>{product.id}</td>
+//                         <td>
+//                           {formatToIndianCurrency(product.price * 50)}
+//                         </td>
+//                         <td>{product.quantity}</td>
+//                         <td>
+//                           {formatToIndianCurrency(
+//                             calculateItemTotal(
+//                               product.price,
+//                               product.quantity
+//                             )
+//                           )}
+//                         </td>
+//                         <td>
+//                           <FontAwesomeIcon
+//                             icon={faTrash}
+//                             onClick={() => handleRemoveItem(product.id)}
+//                             style={{ cursor: "pointer" }}
+//                           />
+//                         </td>
+//                       </tr>
+//                     ))}
+//                   </tbody>
+//                 </Table>
+//               </Card.Body>
+//               <div className="card-footer bg-black">
+//                 {!isOrderPlaced && (
+//                   <Button variant="success" onClick={handlePlaceOrder}>
+//                     Place Order
+//                   </Button>
+//                 )}
+//                 {isOrderPlaced && (
+//                   <p style={{ color: "green" }}>Order Placed Successfully!</p>
+//                 )}
+//               </div>
+//             </Card>
+//           </Col>
+//         </Row>
+//       )}
+
+//       <Row className="justify-content-center">
+//         <Col xs={12} md={8}>
+//           <div className="row mt-3">
+//             <div className="col">
+//               <h4>Total: {formatToIndianCurrency(calculateTotal() * 50)}</h4>
+//             </div>
+//           </div>
+//         </Col>
+//       </Row>
+
+//       {isOrderPlaced && (
+//         <Row className="justify-content-center">
+//           <Col xs={12} md={8}>
+//             <p className="lead fw-bold mb-4 pb-2" style={{ color: "#f37a27" }}>
+//               Tracking Order
+//             </p>
+//             <div className="horizontal-timeline">
+//               <div className="dots-container">
+//                 <div className="dot"></div>
+//                 <div className="dot"></div>
+//                 <div className="dot"></div>
+//                 <div className="dot"></div>
+//               </div>
+//               <div className="status-line"></div>
+//               <ul className="list-inline items d-flex justify-content-between">
+//                 <li className="list-inline-item items-list">
+//                   <p
+//                     className="py-1 px-2 rounded text-white"
+//                     style={{ backgroundColor: "#f37a27" }}
+//                   >
+//                     Ordered
+//                   </p>
+//                 </li>
+//                 <li className="list-inline-item items-list">
+//                   <p
+//                     className="py-1 px-2 rounded text-white"
+//                     style={{ backgroundColor: "#f37a27" }}
+//                   >
+//                     Shipped
+//                   </p>
+//                 </li>
+//                 <li className="list-inline-item items-list">
+//                   <p
+//                     className="py-1 px-2 rounded text-white"
+//                     style={{ backgroundColor: "#f37a27" }}
+//                   >
+//                     On the way
+//                   </p>
+//                 </li>
+//                 <li className="list-inline-item items-list text-end">
+//                   <p style={{ marginRight: "-8px" }}>{orderInfo.status}</p>
+//                 </li>
+//               </ul>
+//               {orderInfo.orderDate && (
+//                 <p>Order Date: {orderInfo.orderDate}</p>
+//               )}
+//               {orderInfo.deliveryDate && (
+//                 <p>Delivery Date: {orderInfo.deliveryDate}</p>
+//               )}
+//             </div>
+//           </Col>
+//         </Row>
+//       )}
+//     </Container>
+//   );
+// };
+
+// export default InvoiceReceipt;
+
+import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { Card, Col, Container, Table, Button, Alert } from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { remove } from "../store/cardSlice";
+import { Row } from "react-bootstrap";
 
 const InvoiceReceipt = () => {
   const products = useSelector((state) => state.cart);
   const [isOrderPlaced, setOrderPlaced] = useState(false);
+  const [orderInfo, setOrderInfo] = useState({
+    status: "Ordered",
+    orderDate: null,
+    deliveryDate: null,
+  });
   const dispatch = useDispatch();
 
   const calculateItemTotal = (price, quantity) => {
-    return price * quantity*50;
+    return price * quantity * 50;
   };
 
   const calculateTotal = () => {
@@ -327,6 +537,7 @@ const InvoiceReceipt = () => {
       0
     );
   };
+
   const formatToIndianCurrency = (amount) => {
     return amount.toLocaleString("en-IN", {
       style: "currency",
@@ -334,15 +545,30 @@ const InvoiceReceipt = () => {
     });
   };
 
-  const currentDate = new Date();
-  const formattedDate = `${currentDate.toLocaleDateString()}`;
-
   const handlePlaceOrder = () => {
     setOrderPlaced(true);
+    const orderDate = new Date().toLocaleDateString();
+    const deliveryDate = new Date();
+    deliveryDate.setDate(deliveryDate.getDate() + 2);
+    setOrderInfo({
+      ...orderInfo,
+      status: "Delivered",
+      orderDate: orderDate,
+      deliveryDate: deliveryDate.toLocaleDateString(),
+    });
   };
 
   const handleRemoveItem = (productId) => {
     dispatch(remove(productId));
+    if (products.length === 1) {
+      // If the last item is removed, reset order placement and order info
+      setOrderPlaced(false);
+      setOrderInfo({
+        status: "Ordered",
+        orderDate: null,
+        deliveryDate: null,
+      });
+    }
   };
 
   return (
@@ -350,134 +576,140 @@ const InvoiceReceipt = () => {
       <Row>
         <Col>
           <h1>Invoice</h1>
-          <p>Date: {formattedDate}</p>
+          <p>Date: {new Date().toLocaleDateString()}</p>
         </Col>
       </Row>
 
-      <Row className="justify-content-center">
-        <Col xs={12} md={8}>
-          <Card className="border border-dark">
-            <div className="card-header bg-black"></div>
-            <Card.Body>
-              <Table bordered={false} hover responsive>
-                <thead>
-                  <tr>
-                    <th>Product </th>
-                    <th>Product Name</th>
-                    <th>Product ID</th>
-                    <th>Price (INR)</th>
-                    <th>Quantity</th>
-                    <th>Sub Total</th>
-                    <th>Remove</th> 
-                  </tr>
-                </thead>
-                <tbody>
-                  {products.map((product) => (
-                    <tr key={product.id}>
-                      <td>
-                        <img
-                          src={product.image}
-                          alt={product.title}
-                          style={{ width: "50px", height: "50px" }}
-                        />
-                      </td>
-                      <td>{product.title}</td>
-                      <td>{product.id}</td>
-                      {/* <td>{product.price}</td> */}
-                      <td>{formatToIndianCurrency(product.price*50)}</td> 
-                      <td>{product.quantity}</td>
-                      {/* <td>
-                        {calculateItemTotal(product.price, product.quantity)}
-                      </td> */}
-                      <td>{formatToIndianCurrency(calculateItemTotal(product.price, product.quantity))}</td> 
-                      <td>
-                        <FontAwesomeIcon
-                          icon={faTrash}
-                          onClick={() => handleRemoveItem(product.id)}
-                          style={{ cursor: "pointer" }}
-                        />
-                      </td>
+      {products.length === 0 && (
+        <Alert variant="info">
+          No products added to the invoice. Please add products to proceed.
+        </Alert>
+      )}
+
+      {products.length > 0 && (
+        <Row className="justify-content-center">
+          <Col xs={12} md={8}>
+            <Card className="border border-dark">
+              <div className="card-header bg-black"></div>
+              <Card.Body>
+                <Table bordered={false} hover responsive>
+                  <thead>
+                    <tr>
+                      <th>Product </th>
+                      <th>Product Name</th>
+                      <th>Product ID</th>
+                      <th>Price (INR)</th>
+                      <th>Quantity</th>
+                      <th>Sub Total</th>
+                      <th>Remove</th>
                     </tr>
-                  ))}
-                </tbody>
-              </Table>
-            </Card.Body>
-            <div className="card-footer bg-black">
-              {!isOrderPlaced && (
-                <Button variant="success" onClick={handlePlaceOrder}>
-                  Place Order
-                </Button>
+                  </thead>
+                  <tbody>
+                    {products.map((product) => (
+                      <tr key={product.id}>
+                        <td>
+                          <img
+                            src={product.image}
+                            alt={product.title}
+                            style={{ width: "50px", height: "50px" }}
+                          />
+                        </td>
+                        <td>{product.title}</td>
+                        <td>{product.id}</td>
+                        <td>
+                          {formatToIndianCurrency(product.price * 50)}
+                        </td>
+                        <td>{product.quantity}</td>
+                        <td>
+                          {formatToIndianCurrency(
+                            calculateItemTotal(
+                              product.price,
+                              product.quantity
+                            )
+                          )}
+                        </td>
+                        <td>
+                          <FontAwesomeIcon
+                            icon={faTrash}
+                            onClick={() => handleRemoveItem(product.id)}
+                            style={{ cursor: "pointer" }}
+                          />
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
+              </Card.Body>
+              <div className="card-footer bg-black">
+                {!isOrderPlaced && (
+                  <Button variant="success" onClick={handlePlaceOrder}>
+                    Place Order
+                  </Button>
+                )}
+                {isOrderPlaced && (
+                  <p style={{ color: "green" }}>Order Placed Successfully!</p>
+                )}
+              </div>
+            </Card>
+          </Col>
+        </Row>
+      )}
+
+      {isOrderPlaced && products.length > 0 && (
+        <Row className="justify-content-center">
+          <Col xs={12} md={8}>
+            <p className="lead fw-bold mb-4 pb-2" style={{ color: "#f37a27" }}>
+              Tracking Order
+            </p>
+            <div className="horizontal-timeline">
+              <div className="dots-container">
+                <div className="dot"></div>
+                <div className="dot"></div>
+                <div className="dot"></div>
+                <div className="dot"></div>
+              </div>
+              <div className="status-line"></div>
+              <ul className="list-inline items d-flex justify-content-between">
+                <li className="list-inline-item items-list">
+                  <p
+                    className="py-1 px-2 rounded text-white"
+                    style={{ backgroundColor: "#f37a27" }}
+                  >
+                    Ordered
+                  </p>
+                </li>
+                <li className="list-inline-item items-list">
+                  <p
+                    className="py-1 px-2 rounded text-white"
+                    style={{ backgroundColor: "#f37a27" }}
+                  >
+                    Shipped
+                  </p>
+                </li>
+                <li className="list-inline-item items-list">
+                  <p
+                    className="py-1 px-2 rounded text-white"
+                    style={{ backgroundColor: "#f37a27" }}
+                  >
+                    On the way
+                  </p>
+                </li>
+                <li className="list-inline-item items-list text-end">
+                  <p style={{ marginRight: "-8px" }}>{orderInfo.status}</p>
+                </li>
+              </ul>
+              {orderInfo.orderDate && (
+                <p>Order Date: {orderInfo.orderDate}</p>
               )}
-              {isOrderPlaced && (
-                <p style={{ color: "green" }}>Order Placed Successfully!</p>
+              {orderInfo.deliveryDate && (
+                <p>Delivery Date: {orderInfo.deliveryDate}</p>
               )}
             </div>
-          </Card>
-        </Col>
-      </Row>
-      <Row className="justify-content-center">
-        <Col xs={12} md={8}>
-          <div className="row mt-3">
-            <div className="col">
-            <h4>Total: {formatToIndianCurrency(calculateTotal()*50)}</h4>
-              {/* <h4>Total: INR {calculateTotal()}</h4> */}
-              {/* <h4>Total: INR {calculateTotal().toLocaleString('en-IN', { style: 'currency', currency: 'INR' })}</h4> */}
-            </div>
-          </div>
-        </Col>
-      </Row>
-      {/* Tracking Order */}
-      {/* <Row className="justify-content-center">
-        <Col xs={12} md={8}>
-          <p className="lead fw-bold mb-4 pb-2" style={{ color: "#f37a27" }}>
-            Tracking Order
-          </p>
-          <div className="horizontal-timeline">
-            <ul className="list-inline items d-flex justify-content-between">
-              <li className="list-inline-item items-list">
-                <p
-                  className="py-1 px-2 rounded text-white"
-                  style={{ backgroundColor: "#f37a27" }}
-                >
-                  Ordered
-                </p>
-              </li>
-              <li className="list-inline-item items-list">
-                <p
-                  className="py-1 px-2 rounded text-white"
-                  style={{ backgroundColor: "#f37a27" }}
-                >
-                  Shipped
-                </p>
-              </li>
-              <li className="list-inline-item items-list">
-                <p
-                  className="py-1 px-2 rounded text-white"
-                  style={{ backgroundColor: "#f37a27" }}
-                >
-                  On the way
-                </p>
-              </li>
-              <li
-                className="list-inline-item items-list text-end"
-                style={{ marginRight: "-8px" }}
-              >
-                <p style={{ marginRight: "-8px" }}>Delivered</p>
-              </li>
-            </ul>
-            <div className="status-line"></div> 
-            <div className="dots-container">
-        <div className="dot"></div>
-        <div className="dot"></div>
-        <div className="dot"></div>
-        <div className="dot"></div>
-      </div>
-          </div>
-        </Col>
-      </Row> */}
+          </Col>
+        </Row>
+      )}
     </Container>
   );
 };
 
 export default InvoiceReceipt;
-
