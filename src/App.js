@@ -195,14 +195,16 @@ import Product from './components/Product';
 import SendOtp from './components/SendOtp';
 import VerifyOtp from './components/VerifyOtp';
 import ResetPassword from './components/ResetPassword';
+import AdminDashboard from './components/AdminDashboard';
 
 
 function App() {
- 
+  const isLoggedIn = localStorage.getItem('username');
   return (
     <div className="App">
       <Router>
         <Routes>
+        <Route path="/" element={isLoggedIn ? <Navigate to="/dashboard/product" /> : <Navigate to="/login" />} />
           <Route
             path="/"
             element={<Navigate to="/login" replace />} // 'replace' avoids adding a new entry to history
@@ -219,6 +221,8 @@ function App() {
             {/* <Route path="verify-otp" element={<VerifyOtp />} />
             <Route path="reset-password" element={<ResetPassword />} /> */}
           </Route> 
+          <Route path="/admin" element={<AdminDashboard/>}>
+            </Route>
 
           
           <Route path="/dashboard" element={<RootLayout />}>

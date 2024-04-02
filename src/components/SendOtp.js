@@ -26,7 +26,7 @@ const SendOtp = () => {
           email,
         }),
       });
-
+      localStorage.setItem('email',email)
       if (!response.ok) {
         throw new Error(`Server responded with status ${response.status}`);
       }

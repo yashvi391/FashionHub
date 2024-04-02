@@ -13,6 +13,7 @@ const [seconds, setSeconds] = useState(30);
   const handleVerifyOTP = async () => {
     try {
       const email = localStorage.getItem("email")
+      setEmail(email)
       const response = await fetch('http://localhost:8081/verify-otp', {
         method: 'POST',
         headers: {
@@ -64,6 +65,39 @@ const [seconds, setSeconds] = useState(30);
     setMinutes(1);
     setSeconds(30);
   };
+
+  const handleSendOTP = async () => {
+    try {
+      console.log(email)
+      // Call the backend endpoint to send OTP to the provided email
+      const response = await fetch('http://localhost:8081/send-otp', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: localStorage.getItem("email")
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Server responded with status ${response.status}`);
+      }
+
+      // Handle the successful response (if needed)
+      const responseData = await response.json();
+      console.log('Response Data:', responseData);
+    } catch (error) {
+      console.error('Error sending OTP:', error.message);
+      // Add additional error handling as needed
+    }
+
+    // localStorage.setItem("email",email)
+
+    navigate('/verify-otp');
+  };
+  
+  
 
   useEffect(() => {
     document.body.classList.add('resetpassword-body');
@@ -137,6 +171,7 @@ const [seconds, setSeconds] = useState(30);
               onClick={(e) => {
                 e.preventDefault();
                 resendOTP();
+                handleSendOTP();
               }}
               className={seconds > 0 || minutes > 0 ? 'resend-link-disabled' : ''}
             >

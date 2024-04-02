@@ -4,19 +4,29 @@ import StatusCode from "../utils/StatusCode";
 //     data:[],
 //     status:StatusCode.IDLE
 // }
+
 const initialState = {
   data: [],
-  status: StatusCode.IDLE
+  status: StatusCode.IDLE,
+  products: [],
 }
 
 const productSlice =createSlice({
   name: "products",
-  initialState,
+  initialState, 
   reducers: {
+    addProduct: (state, action) => {
+      state.products.push(action.payload); // Assuming payload contains the new product
+      // state.data.push({
+      //   ...action.payload,
+      //   image: 'IGNORE_FILE' // Marking the image property as 'IGNORE_FILE'
+      // });
+    },
     // fetchProducts(state,action){
     //     state.data=action.payload;
     // }
   },
+  
   extraReducers: (builder) =>{
     builder
     .addCase(getProducts.pending,(state,action)=>{
@@ -32,6 +42,8 @@ const productSlice =createSlice({
   }
 });
 
+export const { addProduct } = productSlice.actions;
+export const selectProducts = (state) => state.products;
 export const {fetchProducts} = productSlice.actions;
 export default productSlice.reducer;
 
@@ -43,7 +55,8 @@ export default productSlice.reducer;
 // })
 
 
-export const getProducts = createAsyncThunk('fetchproduct/get', async () => {
+// export const getProducts = createAsyncThunk('fetchproduct/get', async () => {
+  export const getProducts = createAsyncThunk('products/getProducts', async () => {
   try {
     const response = await fetch('http://localhost:8081/fetchproduct');
     
@@ -66,4 +79,4 @@ export const getProducts = createAsyncThunk('fetchproduct/get', async () => {
 //        const result=data.json();
 //        dispatch(fetchProducts(result));
 //     }
-// }n
+// }

@@ -264,9 +264,14 @@ const Login = () => {
         localStorage.setItem('email',data.email)
         // navigate('/product');
         // setIsLoggedIn(true);
-        navigate('/dashboard/product'); 
+      //   
+      if (data.email === 'admin@admin.com') {
+        // If the user is an admin, redirect to admin dashboard
+        navigate('/admin');
       } else {
-        console.error('Login failed');
+        // If the user is a regular user, redirect to regular dashboard
+        navigate('/dashboard/product');
+      }
 
         setError('Login failed. Please check your credentials.');
         if (responseData.error === 'password incorrect') {

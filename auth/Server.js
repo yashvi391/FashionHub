@@ -3,6 +3,24 @@ const mysql = require('mysql');
 const cors = require('cors');
 const nodemailer = require('nodemailer');
 const bodyParser = require('body-parser');
+const multer = require('multer');
+// // const upload = multer({ dest: 'uploads/' });
+// const upload = multer({ dest: 'uploads/' }); // Ensure 'uploads/' directory exists
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/'); // Specify the destination directory
+  },
+  filename: function (req, file, cb) {
+    // Use the original filename
+    cb(null, file.originalname); 
+  }
+});
+
+// Initialize multer with the custom storage configuration
+const upload = multer({ storage: storage });
+const fs = require('fs');
+const path = require('path');
+const { log } = require("console");
 
 
 const app=express();
@@ -150,6 +168,9 @@ app.post('/send-otp', async (req, res) => {
         user: process.env.GMAIL_USER || "yashvimer7@gmail.com",
         pass: process.env.GMAIL_PASS || "jmyk qrsw dtgf jptq"
       },
+      tls: {
+        rejectUnauthorized: false
+      }
     });
 
     const mailOptions = {
@@ -198,6 +219,26 @@ app.post('/verify-otp', (req, res) => {
   } catch (error) {
     return res.status(500).json({ error: true, message: error.message });
   } 
+});
+app.post('/addproduct', upload.single('image'), async (req, res) => {
+  console.log('Received file:', req.file); // Log the received file
+  try {
+    const { title, price, category, description } = req.body;
+    // const image = req.file ? req.file.path : null;
+    const image = req.file ? req.file.path : null; // Use the filename if an image was uploaded
+    
+
+    // Assuming your products table has fields: title, price, category, description, image
+    const sql = "INSERT INTO products (title, price, category, description, image) VALUES (?, ?, ?, ?, ?)";
+    const values = [title, price, category, description, image];
+   
+    db.query(sql, values);
+    console.log(req.body);
+    res.json({ message: 'Product added successfully',data :values });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Error adding product' });
+  }
 });
 app.listen(8081, () => {
   console.log("Server is listening on port 8081");

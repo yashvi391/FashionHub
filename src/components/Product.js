@@ -14,6 +14,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { css } from "@emotion/react";
 import axios from 'axios';
+import { selectProducts } from '../store/productSlice';
+import { addProduct } from "../store/productSlice";
 import loadingGif from '../assets/img.gif'; 
 
 
@@ -21,7 +23,8 @@ import "../Style.css";
 
 const Product = () => {
   const dispatch = useDispatch();
-  const{data: products,status}=useSelector(state => state.products);
+  const { data: products, status } = useSelector((state) => state.products);
+  // const{data: products,status}=useSelector(state => state.products);
   // const [products, getProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
@@ -31,6 +34,7 @@ const Product = () => {
   const itemsPerPage =8;
   const isAddedToCart = (productId) => cardProducts.some((product) => product.id === productId);
   const cardProducts = useSelector((state) => state.cart);
+  
   const [selectedProduct, setSelectedProduct] = useState(null); // Track the selected product
  
   const [showToast, setShowToast] = useState(false);
@@ -46,6 +50,8 @@ const Product = () => {
     dispatch(getProducts());
     setSelectedCategory('');
   }, [dispatch]);
+  
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -94,6 +100,7 @@ const Product = () => {
   console.log("Products in Product Component:", products);
 
   const addToCard =(product) => { 
+    
     const updatedCart = [...cart];
     const existingProductIndex = updatedCart.findIndex((item) => item.id === product.id);
    
@@ -105,6 +112,7 @@ const Product = () => {
       // If the product is not in the cart, add it with quantity 1
       updatedCart.push({ ...product, quantity: 1 });
     }
+    // dispatch(addProduct(product));
     dispatch(add(product));
     setCart(updatedCart);
     // // dispatch(add(updatedCart));
@@ -124,16 +132,36 @@ const Product = () => {
     });
    
   };
-  const categories = ["electronics", "jewelery", "men's clothing", "women's clothing"];
+  // const categories = ["electronics", "jewelery", "men's clothing", "women's clothing"];
+  const categories = ["electronics", "men's clothing", "women's clothing"];
    
   const cards =filteredProducts.map(product => (
     
     <div key={product.id} className="col-lg-3 col-md-4 col-sm-6 mb-4">
       <Card className=" card__one h-100 mx-auto">
         {/* <Card.Img variant="top" src={product.image} style={{ width: '100px', height: '130px' }} /> */}
-        <Link to={`/dashboard/product/${product.id}`}className="d-flex justify-content-center align-items-center">
+        {/* <Link to={`/dashboard/product/${product.id}`}className="d-flex justify-content-center align-items-center">
           <Card.Img variant="top" src={product.image} style={{ width: '100px', height: '130px', objectFit: 'cover', padding:'10px' }} />
+        </Link> */}
+
+        {product && product.id ? (
+        <Link
+          to={`/dashboard/product/${product.id}`}
+          className="d-flex justify-content-center align-items-center"
+        >
+          <Card.Img
+            variant="top"
+            src={product.image}
+            style={{ width: "100px", height: "130px", objectFit: "cover", padding: "10px" }}
+            onError={() => console.error(`Failed to load image for product ID ${product.id}`)}
+
+          />
         </Link>
+      ) : (
+        <div>No product available</div>
+      )}
+
+
         <Card.Body>
           <Card.Title>{product.title}</Card.Title>
           <Card.Text>Price: INR {Math.floor(product.price*50).toLocaleString('en-IN')}</Card.Text>
@@ -232,4 +260,3 @@ const Product = () => {
   );
 }
 export default Product;
-
