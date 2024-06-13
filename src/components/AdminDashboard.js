@@ -8,7 +8,10 @@ import "react-toastify/dist/ReactToastify.css";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 import { BoxArrowRight } from "react-bootstrap-icons";
+import Table from "./Table";
+// import Form from "./Form";
 import "../Signup.css";
+
 
 const AdminDashboard = () => {
   const dispatch = useDispatch();
@@ -21,7 +24,7 @@ const AdminDashboard = () => {
     image: "null", // Set initial state to an empty string
   });
   const [products, setProducts] = useState([]);
-  const categories = ["electronics", "men's clothing", "women's clothing"];
+  const categories = ["electronics", "jewelry","men's clothing", "women's clothing"];
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -42,13 +45,6 @@ const AdminDashboard = () => {
     };
   }, []);
 
-  // const handleFileChange = (e) => {
-  //   const file = e.target.files[0];
-  //   setFormData((prevData) => ({
-  //     ...prevData,
-  //     image: file,
-  //   }));
-  // };
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     setFormData((prevData) => ({
@@ -81,42 +77,6 @@ const AdminDashboard = () => {
         // Handle error or display an error message
       });
   };
-
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   if (formData.image && formData.image.type && !formData.image.type.includes('image')) {
-  //     // If file type is not image, display an error message
-  //     alert('Please select an image file (PNG, JPG, JPEG)');
-  //     return;
-  //   }
-  //   const formDataToSend = new FormData();
-  //   formDataToSend.append('title', formData.title);
-  //   formDataToSend.append('price', formData.price);
-  //   formDataToSend.append('category', formData.category);
-  //   formDataToSend.append('description', formData.description);
-  //   formDataToSend.append('image', formData.image);
-
-  //   fetch('http://localhost:8081/addproduct', {
-  //     method: 'POST',
-  //     body: formDataToSend,
-  //   })
-  //   .then((res) => res.json())
-  //   .then((json) => {
-  //     console.log(json);
-  //     fetchProducts();
-  //     navigate(`/dashboard/product/${json.productId}`);
-  //     dispatch(addProduct(formData));
-  //     // navigate(`/dashboard/product/${json.productId}`);
-  //     // dispatch(getProducts());
-  //     // navigate(`/dashboard/product/${product.id}`);
-  //     // to={`/dashboard/product/${product.id}`}
-  //     // Handle success or display a success message
-  //   })
-  //   .catch((error) => {
-  //     console.error('Error adding product:', error);
-  //     // Handle error or display an error message
-  //   });
-  // };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -193,7 +153,95 @@ const AdminDashboard = () => {
     // Implement logout logic here
     navigate("/login");
   };
-
+  
+  const handleDelete = (productId) => {
+    fetch(`http://localhost:8081/products/${productId}`, {
+      method: 'DELETE'
+    })
+    .then(response => {
+      if (response.ok) {
+        toast.success("Product deleted successfully", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+        // Optionally, you can fetch the updated product list from the server
+        // and update the state to reflect the changes
+      } else {
+        throw new Error('Failed to delete product');
+      }
+    })
+    .catch(error => {
+      console.error('Error deleting product:', error);
+      toast.error("Failed to delete product. Please try again.", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+    });
+  };
+  const handleEditClick = (productId, updatedData) => {
+    fetch(`http://localhost:8081/update-product/${productId}`, { // Updated URL
+      method: 'PUT',
+      body: JSON.stringify(updatedData), // Convert updatedData to JSON string
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => response.json()) // Parse response body as JSON
+    .then(data => {
+      console.log("Response from server:", data);
+      // Check if the response is successful
+      if (data) { // Check if data is truthy, indicating a successful response
+        // Optionally, you can fetch the updated product list from the server
+        // and update the state to reflect the changes
+  
+        // Show success toast for product update
+        toast.success("Product updated successfully", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+      } else {
+        throw new Error('Failed to update product');
+      }
+    })
+    .catch(error => {
+      console.error('Error updating product:', error);
+      // Show error toast if update fails
+      toast.error("Failed to update product. Please try again.", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+    });
+  };
+  const updateProducts = (updatedProduct) => {
+    // Update products state here
+    // For simplicity, let's assume products is stored in stateProducts state
+    // You should modify this function based on your actual implementation
+    setProducts(prevProducts => {
+      return prevProducts.map(product => {
+        if (product.id === updatedProduct.id) {
+          return updatedProduct;
+        }
+        return product;
+      });
+    });
+  };
+   
   return (
     <div className="signup">
       <ToastContainer />
@@ -201,10 +249,11 @@ const AdminDashboard = () => {
         className="d-flex align-items-center logout-icon"
         onClick={handleLogout}
       >
+
         {/* Logout icon */}
-        <BoxArrowRight size={32} className="me-2" />{" "}
+        <BoxArrowRight size={32} className="me-2" style={{ color: 'white' }}/>{" "}
         {/* Adjust size as needed and add margin to the right */}
-        <span className="icon-name">Logout</span>
+        <span className="icon-name" style={{ color: 'white' }}>Logout</span>
       </div>
 
       <div className="form">
@@ -285,7 +334,7 @@ const AdminDashboard = () => {
               id="image"
               name="image"
               placeholder="Enter image URL"
-              accept="image/png, image/jpeg"
+              accept="image/png, image/jpeg,image/jpg"
               // value={formData.image}
               // onChange={handleImageUrlChange}
               // onChange={handleChange}
@@ -297,6 +346,12 @@ const AdminDashboard = () => {
           <button type="submit">Add Product</button>
         </form>
       </div>
+      <Table
+        products={products}
+        handleDelete={handleDelete}
+        handleEditClick={handleEditClick}
+        updateProducts={updateProducts}
+      />
     </div>
   );
 };

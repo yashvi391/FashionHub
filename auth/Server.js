@@ -4,8 +4,6 @@ const cors = require('cors');
 const nodemailer = require('nodemailer');
 const bodyParser = require('body-parser');
 const multer = require('multer');
-// // const upload = multer({ dest: 'uploads/' });
-// const upload = multer({ dest: 'uploads/' }); // Ensure 'uploads/' directory exists
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, 'uploads/'); // Specify the destination directory
@@ -27,7 +25,8 @@ const app=express();
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
-
+app.use(express.static('uploads'));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 const db = mysql.createConnection({
   host: "localhost",
@@ -129,7 +128,7 @@ console.log('confirmPassword:', confirmPassword);
       res.status(200).json({ message: 'Password reset successfully.' });
     });
   });
-});
+});  
 
 const otpStore = {};
 app.post('/send-otp', async (req, res) => {
@@ -225,19 +224,53 @@ app.post('/addproduct', upload.single('image'), async (req, res) => {
   try {
     const { title, price, category, description } = req.body;
     // const image = req.file ? req.file.path : null;
-    const image = req.file ? req.file.path : null; // Use the filename if an image was uploaded
-    
+    const image = req.file ? req.file.filename : null; // Use the filename if an image was uploaded
 
     // Assuming your products table has fields: title, price, category, description, image
     const sql = "INSERT INTO products (title, price, category, description, image) VALUES (?, ?, ?, ?, ?)";
     const values = [title, price, category, description, image];
-   
+
     db.query(sql, values);
     console.log(req.body);
     res.json({ message: 'Product added successfully',data :values });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Error adding product' });
+  }
+}); 
+app.put('/update-product/:id', async (req, res) => {
+  const productId = req.params.id;
+  const { title, price, category, description, image } = req.body;
+  try {
+    //Construct SQL query
+    const sql = `
+      UPDATE products 
+      SET title = ?, price = ?, category = ?, description = ?, image = ? 
+      WHERE id = ?
+    `;
+    const values = [title, price, category, description, image, productId];
+
+    // Execute the query
+    await db.query(sql, values);
+
+    // Send success response
+    res.json({ message: 'Product updated successfully' });
+  } catch (error) {
+    console.error(error);
+    // Send error response
+    res.status(500).json({ message: 'Error updating product' });
+  }
+}); 
+app.delete('/products/:id', async (req, res) => {
+  const productId = req.params.id;
+
+  try {
+    const sql = "DELETE FROM products WHERE id = ?";
+    await db.query(sql, [productId]);
+    res.json({ message: 'Product deleted successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error deleting product' });
   }
 });
 app.listen(8081, () => {

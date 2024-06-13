@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useDispatch,useSelector} from 'react-redux';
 import Card from 'react-bootstrap/Card';
+import img1 from '../uploads/image5.jpg'
 import Button from "react-bootstrap/Button";
 import { Alert,Dropdown, Modal } from "react-bootstrap";
 import { add } from '../store/cardSlice';
@@ -17,8 +18,6 @@ import axios from 'axios';
 import { selectProducts } from '../store/productSlice';
 import { addProduct } from "../store/productSlice";
 import loadingGif from '../assets/img.gif'; 
-
-
 import "../Style.css";
 
 const Product = () => {
@@ -80,7 +79,8 @@ const Product = () => {
     setFilteredProducts(filtered.slice(startIndex, endIndex));
   }, [products, searchTerm, selectedCategory, currentPage, itemsPerPage]);
   
-  
+
+
   const handlePageClick = ({ selected }) => {
     setCurrentPage(selected);
   };
@@ -132,18 +132,12 @@ const Product = () => {
     });
    
   };
-  // const categories = ["electronics", "jewelery", "men's clothing", "women's clothing"];
-  const categories = ["electronics", "men's clothing", "women's clothing"];
+  const categories = ["electronics", "jewelry", "men's clothing", "women's clothing"];
    
   const cards =filteredProducts.map(product => (
     
     <div key={product.id} className="col-lg-3 col-md-4 col-sm-6 mb-4">
       <Card className=" card__one h-100 mx-auto">
-        {/* <Card.Img variant="top" src={product.image} style={{ width: '100px', height: '130px' }} /> */}
-        {/* <Link to={`/dashboard/product/${product.id}`}className="d-flex justify-content-center align-items-center">
-          <Card.Img variant="top" src={product.image} style={{ width: '100px', height: '130px', objectFit: 'cover', padding:'10px' }} />
-        </Link> */}
-
         {product && product.id ? (
         <Link
           to={`/dashboard/product/${product.id}`}
@@ -151,20 +145,21 @@ const Product = () => {
         >
           <Card.Img
             variant="top"
-            src={product.image}
+            src={`http://localhost:8081/${product.image}`}
             style={{ width: "100px", height: "130px", objectFit: "cover", padding: "10px" }}
             onError={() => console.error(`Failed to load image for product ID ${product.id}`)}
-
+          
           />
+
         </Link>
       ) : (
         <div>No product available</div>
       )}
-
+      {/* <img src={img1} alt="Image" /> */}
 
         <Card.Body>
           <Card.Title>{product.title}</Card.Title>
-          <Card.Text>Price: INR {Math.floor(product.price*50).toLocaleString('en-IN')}</Card.Text>
+          <Card.Text>Price: INR {Math.floor(product.price).toLocaleString('en-IN')}</Card.Text>
           <div className="mt-2">Quantity: {cart.find(item => item.id === product.id)?.quantity || 0}</div>
         </Card.Body>
         <Card.Footer style={{ background: 'white' }} className="text-center">

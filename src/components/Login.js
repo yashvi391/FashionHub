@@ -198,6 +198,7 @@ import { get, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import '../login.css';
 
 const Login = () => {
@@ -266,25 +267,18 @@ const Login = () => {
         // setIsLoggedIn(true);
       //   
       if (data.email === 'admin@admin.com') {
-        // If the user is an admin, redirect to admin dashboard
         navigate('/admin');
       } else {
-        // If the user is a regular user, redirect to regular dashboard
         navigate('/dashboard/product');
       }
-
-        setError('Login failed. Please check your credentials.');
-        if (responseData.error === 'password incorrect') {
-          notifyError('Password incorrect. Please try again.');
-        } else if (responseData.error === 'Username incorrect') {
-          notifyError('Username incorrect. Please try again.');
-        } else if (responseData.error === 'email incorrect') {
-          notifyError('Email incorrect. Please try again.');
-        } else {
-          // If there is a generic error, you can display a generic message
-          notifyError('Login failed. Please check your email or password.');
-        }
+    } else {
+      // Invalid credentials
+      if (responseData.error === 'password incorrect' || responseData.error === 'Username incorrect' || responseData.error === 'email incorrect') {
+        notifyError('Invalid credentials. Please try again.');
+      } else {
+        notifyError('Login failed. Please try again later.');
       }
+    }
     } catch (error) {
       // Handle validation errors
       console.error('Validation errors:', error);

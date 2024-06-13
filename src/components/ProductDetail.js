@@ -50,7 +50,8 @@ const ProductDetail = () => {
  <div style={{ display: 'flex', justifyContent: 'space-between', padding: '20px' }}>
       <div style={{ flex: '1', textAlign: 'center' }}>
         <img
-          src={product.image}
+          // src={product.image}
+          src={`http://localhost:8081/${product.image}`}
           alt={product.title}
           style={{ maxWidth: '100%', maxHeight: '400px', width: 'auto', height: 'auto', boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)'}}
         />
@@ -65,7 +66,7 @@ const ProductDetail = () => {
           {product.description}
         </p>
         <p style={{ fontFamily: 'Arial, sans-serif', fontSize: '18px', fontWeight: 'bold', color: '#007BFF' }}>
-          Price: INR {Math.floor(product.price*50).toLocaleString('en-IN')}
+          Price: INR {Math.floor(product.price).toLocaleString('en-IN')}
         </p>
           <div style={{ display: 'flex'}}>
   <Button variant="primary" onClick={() => addToCard(product)} className="button-gradient">

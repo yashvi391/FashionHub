@@ -48,28 +48,29 @@ const Cart = () => {
         <Card.Body >
         <Card.Img
           variant="top"
-          src={product.image}
+          // src={product.image}
+          src={`http://localhost:8081/${product.image}`}
           style={{ width: "100px", height: "130px",objectFit:"cover" }}
         />
           <Card.Title>{product.title}</Card.Title>
           <Card.Text>INR: {product.price}</Card.Text>
           <Card.Text>Quantity: {product.quantity}</Card.Text>
           <Card.Text>
-            Item Total: {calculateItemTotal(product.price, product.quantity *50)}
+            Item Total: {calculateItemTotal(product.price, product.quantity)}
           </Card.Text>
           <Card.Footer style={{ background: "white" }}>
             <Button
               variant=""
               onClick={() => incrementQuantity(product.id)}
             >
-             <Plus size={20} />
+             <Plus size={20} style={{ color: 'green' }}/>
             </Button>{" "}
             <Button
               variant=""
               onClick={() => decrementQuantity(product.id)}
               disabled={product.quantity === 1}
             >
-              <Dash size={20} />
+              <Dash size={20} style={{ color: 'red' }}/>
             </Button>{" "}
             <Button
               variant="danger"
@@ -88,7 +89,7 @@ const Cart = () => {
     <div className="container-fluid">
       <div className="row">{cards}</div>
       <div>
-        <h4>Total: INR {calculateTotal()*50}</h4>
+        <h4>Total: INR {calculateTotal()}</h4>
         <Button variant="primary" onClick={handleBuyNow}>
           Buy Now
         </Button>

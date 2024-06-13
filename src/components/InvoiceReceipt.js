@@ -10,7 +10,7 @@
 // // import { Twilio } from 'twilio';
 
 // const InvoiceReceipt = () => {
-//   const products = useSelector((state) => state.cart);
+//   const products = useSelector((state) => state.cart); 
 //   const [isOrderPlaced, setOrderPlaced] = useState(false);
 //   // const [phoneNumber, setPhoneNumber] = useState('');
 
@@ -528,7 +528,7 @@ const InvoiceReceipt = () => {
   const dispatch = useDispatch();
 
   const calculateItemTotal = (price, quantity) => {
-    return price * quantity * 50;
+    return price * quantity ;
   };
 
   const calculateTotal = () => {
@@ -609,7 +609,8 @@ const InvoiceReceipt = () => {
                       <tr key={product.id}>
                         <td>
                           <img
-                            src={product.image}
+                            // src={product.image}
+                            src={`http://localhost:8081/${product.image}`}
                             alt={product.title}
                             style={{ width: "50px", height: "50px" }}
                           />
@@ -617,7 +618,7 @@ const InvoiceReceipt = () => {
                         <td>{product.title}</td>
                         <td>{product.id}</td>
                         <td>
-                          {formatToIndianCurrency(product.price * 50)}
+                          {formatToIndianCurrency(product.price)}
                         </td>
                         <td>{product.quantity}</td>
                         <td>
